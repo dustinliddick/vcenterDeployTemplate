@@ -2,8 +2,8 @@
 
 A minimal Ansible template for rapid VMware vSphere VM provisioning in partner environments.
 
-[![CI](https://github.com/dustinlidick/vcenter_DeploymentTemplate/workflows/CI/badge.svg)](https://github.com/dustinlidick/vcenter_DeplymentTemplate/actions)
-[![Galaxy](https://img.shields.io/badge/galaxy-dustinlidick.vcenter_DeploymentTemplate-blue)](https://galaxy.ansible.com/dustinlidick/vcenter_DeploymentTemplate)
+[![CI](https://github.com/dustinliddick/vcenterDeployTemplate/workflows/CI/badge.svg)](https://github.com/dustinliddick/vcenterDeployTemplate/actions)
+[![Galaxy](https://img.shields.io/badge/galaxy-dustinliddick.vcenterDeployTemplate-blue)](https://galaxy.ansible.com/dustinliddick/vcenterDeployTemplate)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
 ## Overview
@@ -25,7 +25,7 @@ This template repository provides a complete framework for deploying VMware VMs 
 
 1. **Clone template for your partner:**
    ```bash
-   git clone https://github.com/dustinliddick/vcenter_DeploymentTemplate.git partner-[NAME]
+   git clone https://github.com/dustinliddick/vcenterDeployTemplate.git partner-[NAME]
    cd partner-[NAME]
    ```
 
@@ -69,8 +69,8 @@ The `vmware_deploy` role handles VM cloning, network configuration, and hardware
 
 ```bash
 # Clone and setup
-git clone https://github.com/dustinliddick/vcenter_DeploymentTemplate.git
-cd vcenter_DeploymentTemplate
+git clone https://github.com/dustinliddick/vcenterDeployTemplate.git
+cd vcenterDeployTemplate
 pip install -r requirements.txt
 
 # Run tests
@@ -86,7 +86,7 @@ ansible-lint
 
 **Status:** Production-ready
 **Versioning:** [Semantic Versioning](https://semver.org/)
-**Releases:** [GitHub Releases](https://github.com/dustinliddick/vcenter_DeploymentTemplate/releases)
+**Releases:** [GitHub Releases](https://github.com/dustinliddick/vcenterDeployTemplate/releases)
 
 ## Roadmap
 
@@ -109,8 +109,8 @@ See [CHANGELOG.md](CHANGELOG.md) for detailed release history.
 
 ## Support
 
-- **Issues:** [GitHub Issues](https://github.com/dustinliddick/vcenter_DeploymentTemplate/issues)
-- **Discussions:** [GitHub Discussions](https://github.com/dustinliddick/vcenter_DeploymentTemplate/discussions)
+- **Issues:** [GitHub Issues](https://github.com/dustinliddick/vcenterDeployTemplate/issues)
+- **Discussions:** [GitHub Discussions](https://github.com/dustinliddick/vcenterDeployTemplate/discussions)
 - **Documentation:** [docs/](docs/)
 
 ## Acknowledgments

@@ -1,0 +1,15 @@
+---
+profile: production
+
+exclude_paths:
+  - .cache/
+  - .github/
+  - molecule/
+  - .yamllint.yml
+
+skip_list:
+  - yaml[line-length]  # Allow long lines in some cases
+  - var-naming[no-role-prefix]  # Allow variables without role prefix
+
+warn_list:
+  - experimental  # Warn about experimental features

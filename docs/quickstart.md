@@ -16,7 +16,7 @@ First, clone this template repository and set it up for your new partner:
 
 ```bash
 # Clone the template repository
-git clone https://github.com/dustinliddick/vcenter_DeploymentTemplate.git vms_[PARTNER_NAME]
+git clone https://github.com/dustinliddick/vcenterDeployTemplate.git vms_[PARTNER_NAME]
 cd vms_[PARTNER_NAME]
 
 # Remove the original git remote and create a new repository for this partner

@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Python requirements specification
 
 ### Changed
-- Refactored from dustinliddick.vcenter_DeploymentTemplate to collegis.vms_partner
+- Refactored from dustinliddick.vcenterDeployTemplate to collegis.vms_partner
 - Updated namespace and collection naming
 - Improved variable contracts and documentation
 
