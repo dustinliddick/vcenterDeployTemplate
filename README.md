@@ -2,8 +2,8 @@
 
 A minimal Ansible template for rapid VMware vSphere VM provisioning in partner environments.
 
-[![CI](https://github.com/dustinlidick/ansible-collection-vms-partner/workflows/CI/badge.svg)](https://github.com/dustinlidick/ansible-collection-vms-partner/actions)
-[![Galaxy](https://img.shields.io/badge/galaxy-dustinlidick.vms__partner-blue)](https://galaxy.ansible.com/dustinlidick/vms_partner)
+[![CI](https://github.com/dustinlidick/vcenter_DeploymentTemplate/workflows/CI/badge.svg)](https://github.com/dustinlidick/vcenter_DeplymentTemplate/actions)
+[![Galaxy](https://img.shields.io/badge/galaxy-dustinlidick.vcenter_DeploymentTemplate-blue)](https://galaxy.ansible.com/dustinlidick/vcenter_DeploymentTemplate)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
 ## Overview
