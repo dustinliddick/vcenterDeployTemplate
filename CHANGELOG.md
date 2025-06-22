@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Initial repository creation and code push to GitHub
 - Initial release of the collection
 - vmware_deploy role for VM provisioning
 - Comprehensive documentation and examples
