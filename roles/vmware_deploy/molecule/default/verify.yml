@@ -1,0 +1,24 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Verify role variables are defined
+      assert:
+        that:
+          - vcenter_hostname is defined
+          - vcenter_username is defined  
+          - vcenter_password is defined
+          - vcenter_datacenter is defined
+          - vm_name is defined
+          - vm_networks is defined
+        fail_msg: "Required variables are not defined"
+        success_msg: "All required variables are properly defined"
+
+    - name: Verify VM networks structure
+      assert:
+        that:
+          - vm_networks is sequence
+          - vm_networks | length > 0
+        fail_msg: "vm_networks must be a non-empty list"
+        success_msg: "vm_networks structure is valid"

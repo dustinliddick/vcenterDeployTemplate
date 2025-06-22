@@ -1,0 +1,26 @@
+# VM identity
+vm_name: foo-app01
+vm_fqdn: foo-app01.partner.corp
+
+# Template & placement
+vcenter_template: RHEL9-gold
+vcenter_esxi_host: esxi01.partner.corp
+
+# ── optional data-disk toggle ───────────────────────────────
+add_data_disk: false          # set true to attach an extra VMDK
+
+data_disk:                    # only used when add_data_disk = true
+  size_gb: 100                # capacity of the new disk
+  type: thin                  # thin | eagerzeroedthick | thick
+  datastore: "{{ vcenter_datastore | default(omit) }}"
+
+# Hardware overrides
+memory_mb: 8192      # default 16384
+num_cpus: 2          # default 4
+
+# Networking
+vm_networks:
+  - name: Partner_APP
+    ip: 10.20.30.41
+    netmask: 255.255.255.0
+    gateway: 10.20.30.1

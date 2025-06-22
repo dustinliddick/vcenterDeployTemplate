@@ -1,0 +1,5 @@
+vcenter_hostname: vcenter.<partner>.corp
+vcenter_username: "{{ vault_vcenter_user }}"
+vcenter_password: "{{ vault_vcenter_password }}"
+vcenter_datacenter: <PARTNER_DC>
+vcenter_guest_domain: <partner>.corp

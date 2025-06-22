@@ -1,0 +1,43 @@
+---
+# Example site playbook for multiple VM deployment
+- name: Deploy Multiple Partner VMs
+  hosts: all
+  gather_facts: false
+  vars_files:
+    - ../group_vars/partner.yml
+    - "../host_vars/{{ inventory_hostname }}.yml"
+
+  roles:
+    - collegis.vms_partner.vmware_deploy
+
+- name: Post-deployment configuration
+  hosts: all
+  gather_facts: true
+  become: true
+  vars_files:
+    - ../group_vars/partner.yml
+    - "../host_vars/{{ inventory_hostname }}.yml"
+
+  tasks:
+    - name: Wait for VM to be accessible
+      ansible.builtin.wait_for_connection:
+        timeout: 300
+        delay: 30
+      when: vm_create_result.changed | default(false)
+
+    - name: Gather facts from newly created VM
+      ansible.builtin.setup:
+      when: vm_create_result.changed | default(false)
+
+    - name: Display VM information
+      ansible.builtin.debug:
+        msg: |
+          VM Configuration Complete:
+          -------------------------
+          Hostname: {{ ansible_hostname }}
+          IP Address: {{ ansible_default_ipv4.address }}
+          OS: {{ ansible_distribution }} {{ ansible_distribution_version }}
+          Kernel: {{ ansible_kernel }}
+          Memory: {{ ansible_memtotal_mb }}MB
+          CPUs: {{ ansible_processor_vcpus }}
+      when: vm_create_result.changed | default(false)

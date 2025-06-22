@@ -1,0 +1,11 @@
+---
+- name: Converge
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: "Include vmware_deploy role"
+      include_role:
+        name: vmware_deploy
+      vars:
+        # Override for testing - skip actual VM creation
+        ansible_check_mode: true

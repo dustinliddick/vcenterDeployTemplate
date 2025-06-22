@@ -1,0 +1,3 @@
+---
+# Internal variables for vmware_cleanup role
+# These should not be overridden by users

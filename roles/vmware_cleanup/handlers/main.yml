@@ -1,0 +1,3 @@
+---
+# Handlers for vmware_cleanup role
+# Currently no handlers are needed for VM cleanup operations

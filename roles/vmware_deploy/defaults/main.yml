@@ -1,0 +1,42 @@
+# ===========================================
+# REQUIRED VARIABLES (must be set by caller)
+# ===========================================
+# vcenter_hostname: ""        # vCenter server FQDN
+# vcenter_username: ""        # vCenter username
+# vcenter_password: ""        # vCenter password  
+# vcenter_datacenter: ""      # Target datacenter name
+# vcenter_template: ""        # VM template name
+# vcenter_esxi_host: ""       # Target ESXi host
+# vm_name: ""                 # VM name to create
+# vm_networks: []             # Network configuration list
+
+# ===========================================
+# OPTIONAL VARIABLES (sensible defaults)
+# ===========================================
+
+# VM folder in vCenter (optional)
+vcenter_folder: "/vm"
+
+# Guest domain configuration
+vcenter_guest_domain: "partner.corp"
+
+# Hardware defaults
+memory_mb: 16384
+num_cpus: 4
+
+# Network/DNS configuration
+partner_dns_servers: []
+partner_dns_suffix: []
+
+# Data disk configuration
+add_data_disk: false
+data_disk:
+  size_gb: 100
+  type: thin
+  datastore: "{{ vcenter_datastore | default(omit) }}"
+
+# Timing configuration
+vm_wait_timeout: 300
+
+# Security
+validate_certs: false

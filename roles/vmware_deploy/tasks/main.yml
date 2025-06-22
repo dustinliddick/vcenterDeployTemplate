@@ -1,0 +1,46 @@
+---
+- name: Check if VM already exists
+  community.vmware.vmware_guest_info:
+    hostname: "{{ vcenter_hostname }}"
+    username: "{{ vcenter_username }}"
+    password: "{{ vcenter_password }}"
+    validate_certs: false
+    datacenter: "{{ vcenter_datacenter }}"
+    name: "{{ vm_name }}"
+  register: vm_info
+  failed_when: false
+  delegate_to: localhost
+
+- name: Clone VM for partner environment
+  community.vmware.vmware_guest:
+    hostname: "{{ vcenter_hostname }}"
+    username: "{{ vcenter_username }}"
+    password: "{{ vcenter_password }}"
+    validate_certs: false
+    datacenter: "{{ vcenter_datacenter }}"
+    folder: "{{ vcenter_folder | default('/vm') }}"
+    template: "{{ vcenter_template }}"
+    name: "{{ vm_name }}"
+    state: present
+    esxi_hostname: "{{ vcenter_esxi_host }}"
+    convert: thin
+    hardware:
+      memory_mb: "{{ memory_mb }}"
+      num_cpus: "{{ num_cpus }}"
+      hotadd_memory: true
+      hotremove_cpu: true
+    networks: "{{ vm_networks }}"
+    disk: "{{ [data_disk] if add_data_disk | bool else omit }}"
+    wait_for_ip_address: true
+    wait_for_ip_address_timeout: "{{ vm_wait_timeout | default(300) }}"
+    customization:
+      domain: "{{ vcenter_guest_domain }}"
+      dns_servers: "{{ partner_dns_servers }}"
+      dns_suffix: "{{ partner_dns_suffix }}"
+  when: vm_info.instance is not defined
+  delegate_to: localhost
+  register: vm_create_result
+
+- name: Display VM creation result
+  ansible.builtin.debug:
+    msg: "VM {{ vm_name }} {{ 'created successfully' if vm_create_result.changed else 'already exists' }}"

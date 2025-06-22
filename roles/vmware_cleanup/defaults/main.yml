@@ -1,0 +1,22 @@
+# ===========================================
+# REQUIRED VARIABLES (must be set by caller)
+# ===========================================
+# vcenter_hostname: ""        # vCenter server FQDN
+# vcenter_username: ""        # vCenter username
+# vcenter_password: ""        # vCenter password  
+# vcenter_datacenter: ""      # Target datacenter name
+# vm_name: ""                 # VM name to remove
+
+# ===========================================
+# OPTIONAL VARIABLES (sensible defaults)
+# ===========================================
+
+# VM removal behavior
+force_removal: false          # Force power off before removal
+remove_snapshots: true        # Remove VM snapshots during cleanup
+
+# Security
+validate_certs: false
+
+# Confirmation behavior
+confirm_removal: true         # Require confirmation before removal

@@ -1,0 +1,85 @@
+---
+- name: Confirm VM removal (when confirm_removal is true)
+  ansible.builtin.pause:
+    prompt: "Are you sure you want to remove VM '{{ vm_name }}'? Type 'yes' to continue"
+  register: removal_confirmation
+  when: confirm_removal | bool
+
+- name: Validate removal confirmation
+  ansible.builtin.fail:
+    msg: "VM removal cancelled by user"
+  when: 
+    - confirm_removal | bool
+    - removal_confirmation.user_input != 'yes'
+
+- name: Get VM information before removal
+  community.vmware.vmware_guest_info:
+    hostname: "{{ vcenter_hostname }}"
+    username: "{{ vcenter_username }}"
+    password: "{{ vcenter_password }}"
+    validate_certs: "{{ validate_certs }}"
+    datacenter: "{{ vcenter_datacenter }}"
+    name: "{{ vm_name }}"
+  register: vm_info
+  failed_when: false
+  delegate_to: localhost
+
+- name: Display VM not found message
+  ansible.builtin.debug:
+    msg: "VM '{{ vm_name }}' not found in datacenter '{{ vcenter_datacenter }}'"
+  when: vm_info.instance is not defined
+
+- name: Power off VM before removal
+  community.vmware.vmware_guest:
+    hostname: "{{ vcenter_hostname }}"
+    username: "{{ vcenter_username }}"
+    password: "{{ vcenter_password }}"
+    validate_certs: "{{ validate_certs }}"
+    datacenter: "{{ vcenter_datacenter }}"
+    name: "{{ vm_name }}"
+    state: poweredoff
+    force: "{{ force_removal }}"
+  when: 
+    - vm_info.instance is defined
+    - vm_info.instance.hw_power_status == "poweredOn"
+  delegate_to: localhost
+  register: vm_poweroff_result
+
+- name: Remove VM snapshots
+  community.vmware.vmware_guest_snapshot:
+    hostname: "{{ vcenter_hostname }}"
+    username: "{{ vcenter_username }}"
+    password: "{{ vcenter_password }}"
+    validate_certs: "{{ validate_certs }}"
+    datacenter: "{{ vcenter_datacenter }}"
+    name: "{{ vm_name }}"
+    state: remove_all
+  when: 
+    - vm_info.instance is defined
+    - remove_snapshots | bool
+  delegate_to: localhost
+  failed_when: false
+  register: snapshot_removal_result
+
+- name: Remove VM from vCenter
+  community.vmware.vmware_guest:
+    hostname: "{{ vcenter_hostname }}"
+    username: "{{ vcenter_username }}"
+    password: "{{ vcenter_password }}"
+    validate_certs: "{{ validate_certs }}"
+    datacenter: "{{ vcenter_datacenter }}"
+    name: "{{ vm_name }}"
+    state: absent
+  when: vm_info.instance is defined
+  delegate_to: localhost
+  register: vm_removal_result
+
+- name: Display VM removal result
+  ansible.builtin.debug:
+    msg: |
+      VM Cleanup Summary:
+      ------------------
+      VM Name: {{ vm_name }}
+      Status: {{ 'Successfully removed' if vm_removal_result.changed else 'VM not found or already removed' }}
+      Snapshots Removed: {{ 'Yes' if (remove_snapshots and snapshot_removal_result.changed) else 'No' }}
+      Power State Changed: {{ 'Yes' if vm_poweroff_result.changed else 'No' }}

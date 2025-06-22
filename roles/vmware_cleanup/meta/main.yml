@@ -1,0 +1,25 @@
+---
+galaxy_info:
+  author: Dustin Liddick
+  description: "VMware VM cleanup and removal role for partner environments"
+  license: MIT
+  min_ansible_version: "2.16"
+  
+  platforms:
+    - name: EL
+      versions:
+        - 8
+        - 9
+    - name: Ubuntu
+      versions:
+        - 20.04
+        - 22.04
+
+  galaxy_tags:
+    - vmware
+    - vsphere
+    - virtualization
+    - cleanup
+    - infrastructure
+
+dependencies: []

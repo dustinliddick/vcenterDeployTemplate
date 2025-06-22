@@ -1,0 +1,40 @@
+---
+- name: Deploy Partner VM Infrastructure
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars_files: "{{ extra_vars | default([]) }}"
+
+  pre_tasks:
+    - name: Validate required variables
+      ansible.builtin.assert:
+        that:
+          - vcenter_hostname is defined
+          - vcenter_username is defined
+          - vcenter_password is defined
+          - vcenter_datacenter is defined
+          - vcenter_template is defined
+          - vcenter_esxi_host is defined
+          - vm_name is defined
+          - vm_networks is defined
+        fail_msg: "Required variables are missing. Check your vars files."
+        quiet: true
+
+  roles:
+    - collegis.vms_partner.vmware_deploy
+
+  post_tasks:
+    - name: Display deployment summary
+      ansible.builtin.debug:
+        msg: |
+          VM Deployment Summary:
+          ----------------------
+          VM Name: {{ vm_name }}
+          Template: {{ vcenter_template }}
+          Datacenter: {{ vcenter_datacenter }}
+          ESXi Host: {{ vcenter_esxi_host }}
+          Memory: {{ memory_mb }}MB
+          CPUs: {{ num_cpus }}
+          Networks: {{ vm_networks | length }} configured
+          Status: {{ 'Completed successfully' if ansible_check_mode == false else 'Check mode - no changes made' }}

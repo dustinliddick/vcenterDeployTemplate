@@ -1,0 +1,32 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+platforms:
+  - name: instance
+    image: quay.io/ansible/molecule-runner:latest
+    pre_build_image: true
+provisioner:
+  name: ansible
+  inventory:
+    host_vars:
+      instance:
+        # Mock variables for testing
+        vcenter_hostname: "vcenter.test.local"
+        vcenter_username: "test@vsphere.local"
+        vcenter_password: "password"
+        vcenter_datacenter: "TestDC"
+        vcenter_template: "RHEL9-Template"
+        vcenter_esxi_host: "esxi01.test.local"
+        vm_name: "test-vm-01"
+        vm_networks:
+          - name: "VM Network"
+            ip: "192.168.1.100"
+            netmask: "255.255.255.0"
+            gateway: "192.168.1.1"
+        vcenter_guest_domain: "test.local"
+        partner_dns_servers: ["8.8.8.8", "8.8.4.4"]
+        partner_dns_suffix: ["test.local"]
+verifier:
+  name: ansible

@@ -1,0 +1,39 @@
+---
+- name: Cleanup Partner VM Infrastructure
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars_files: "{{ extra_vars | default([]) }}"
+
+  pre_tasks:
+    - name: Validate required variables for cleanup
+      ansible.builtin.assert:
+        that:
+          - vcenter_hostname is defined
+          - vcenter_username is defined
+          - vcenter_password is defined
+          - vcenter_datacenter is defined
+          - vm_name is defined
+        fail_msg: "Required variables are missing. Check your vars files."
+        quiet: true
+
+    - name: Display cleanup warning
+      ansible.builtin.debug:
+        msg: |
+          WARNING: VM CLEANUP OPERATION
+          =============================
+          This will permanently remove the following VM:
+          - Name: {{ vm_name }}
+          - Datacenter: {{ vcenter_datacenter }}
+          - vCenter: {{ vcenter_hostname }}
+          
+          This action cannot be undone!
+
+  roles:
+    - collegis.vms_partner.vmware_cleanup
+
+  post_tasks:
+    - name: Cleanup completion notice
+      ansible.builtin.debug:
+        msg: "VM cleanup operation completed. Check the output above for results."
