@@ -72,3 +72,6 @@ CLAUDE.md
 *.img
 *.lock
 *.sock
+
+# Ignore Ansible Galaxy build artifacts
+*.tar.gz
